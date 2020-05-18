@@ -16,6 +16,14 @@ ITEM_PIPELINES = {
     #'TweetScraper.pipelines.SavetoMySQLPipeline':100, # replace `SaveToFilePipeline` with this to use MySQL
 }
 
+# Retry when hit rate limit
+# Credits: https://stackoverflow.com/a/48344232
+RETRY_HTTP_CODES = [429]
+DOWNLOADER_MIDDLEWARES = {
+    'scrapy.downloadermiddlewares.retry.RetryMiddleware': None,
+    'TweetScraper.middlewares.TooManyRequestsRetryMiddleware': 543,
+}
+
 # settings for where to save data on disk
 SAVE_TWEET_PATH = './Data/tweet/'
 SAVE_USER_PATH = './Data/user/'
